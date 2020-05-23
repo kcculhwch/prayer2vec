@@ -1,0 +1,8 @@
+version: "3.8"
+services:
+  prayer2vec:
+    build:
+      context: ./
+    volumes:
+      - corpus /corpus
+      - models /models
