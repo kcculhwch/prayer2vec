@@ -25,6 +25,7 @@
     - ACNA
     - Australian
     - NZ
+    - Kenya
   - Reformed
     - PCUSA
     - PCA
