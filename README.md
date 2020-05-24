@@ -2,13 +2,13 @@
 
 ## Directories
 
-- `corpus`
+- [corpus](corpus)
   - Repository of texts
-- `models`
+- [models](models)
   - Storage for models
-- `normalized`
+- [normalized](normalized)
   - Storage for normalized texts
-- Build
+- [build](build)
   - Code for the project
 
 ## Installing and Building
