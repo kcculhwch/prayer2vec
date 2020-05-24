@@ -13,7 +13,7 @@
 
 ## Installing and Building
 
-[Build Instructions Here](build/BUILD.md)
+[Build Instructions Here](BUILD.md)
 
 
 ## Running the tools
