@@ -2,7 +2,7 @@
 
 if [ -z $1 ]
 then
-   echo "OPTIONS word2vec|raw"
+   echo "OPTIONS word2vec|pre|train|raw"
 fi
 
 ARGS=""
@@ -19,10 +19,15 @@ if [[ $1 == "word2vec" ]]
 then
  echo "Running word2vec with: $ARGS"
  word2vec $ARGS
-fi
-
-if [[ $1 == "raw" ]]
+elif [[ $1 == "train" ]]
+then
+ echo "not implemented"
+elif [[ $1 == "raw" ]]
 then
   echo "Running raw commands: $ARGS"
   eval $ARGS
+elif [[ $1 == "pre" ]]
+then
+  echo "Running preprocessor: $ARGS"
+  python ./pre_process.py $ARGS
 fi

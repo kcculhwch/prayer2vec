@@ -1,4 +1,15 @@
 FROM python:3
+
+# DONT CHANGE BELOW
+RUN mkdir /corpus
+RUN mkdir /models
+RUN mkdir /normalized
+COPY corpus/ /corpus
+COPY models /models
+COPY normalized /normalized
+# DONT CHANGE ABOVE
+
+
 RUN apt update
 RUN apt install -y build-essential libpoppler-cpp-dev pkg-config python-dev
 RUN mkdir /app
@@ -6,9 +17,5 @@ WORKDIR /app
 COPY build/requirements.txt ./
 RUN pip install --no-cache-dir  -r requirements.txt
 COPY build/scripts/ ./
-RUN mkdir /corpus
-RUN mkdir /models
-COPY corpus/ /corpus
-COPY models /models
 
 ENTRYPOINT ["/bin/bash", "entrypoint.sh"]
