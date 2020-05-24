@@ -3,7 +3,6 @@
 Make sure you have Docker Installed with latest versions.
 
 
-
 ## Build Docker Container for consistent env
 
 From the root of the project run:
@@ -12,23 +11,11 @@ From the root of the project run:
 
 If all goes well the container and service should build without error
 
-## Running the tools
+## Bash Alias
+Add the following alias to you ~/bash_profile
 
-`docker-compose run --rm prayer2vec OPTIONS`
+`alias p2v="docker-compose run --rm prayer2vec"`
 
-## Options
-`word2vec ARGS` to run word2vec command directly
-`raw COMMANDS` to run raw commands in the env
 
-### TODO
-Will add more options for particular functions as we need them.
-- train /corpus/x/x/ /model/x/x/
-- etc
 
-## Corpus
-Corpus will be bundled in /corpus in the container. It is also mounted over the top of the container so you will not need to rebuild if yout make changes to it.
-
-## Models
-Models will be bundled in /models in the container. It is also mounted over the top of the container so you will n
-ot need to rebuild if yout make changes to it.
 
