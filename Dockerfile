@@ -4,9 +4,6 @@ FROM python:3
 RUN mkdir /corpus
 RUN mkdir /models
 RUN mkdir /normalized
-COPY corpus/ /corpus
-COPY models /models
-COPY normalized /normalized
 # DONT CHANGE ABOVE
 
 
