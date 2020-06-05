@@ -32,7 +32,7 @@ function run {
 
 function submit {
     args=$(echo $1 | sed s/.$//)
-    cmd='aws ecs run-task --task-definition p2v --cluster p2v --network-configuration awsvpcConfiguration={subnets=[subnet-0587fb42d95e1e389]} --overrides '"'"'{"containerOverrides":[{"name":"p2v","command":['$args']}]}'"'"
+    cmd='aws ecs run-task --task-definition p2v --cluster p2v --network-configuration "awsvpcConfiguration={subnets=[subnet-0587fb42d95e1e389],securityGroups=[sg-08aef250dcbad630c],assignPublicIp=DISABLED}" --overrides '"'"'{"containerOverrides":[{"name":"p2v","command":['$args']}]}'"' --platform-version 1.4.0"
     eval $cmd
     echo "submitted for processing in cloud"
 }
