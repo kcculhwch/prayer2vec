@@ -18,14 +18,22 @@
 
 ## Running the tools
 From the root of the project run
-`p2v OPTIONS`
+`p2v [queue] OPTIONS`
+
+`queue` is used to submit the job for running on cloud resources
 
 ### Options
+
 `word2vec ARGS` to run word2vec command directly
 
 `pre corpus/x/x` to normalize the text
 
 `raw COMMANDS` to run raw commands in the env
+
+`sync_up` to sync local data to cloud archives for processing
+
+`sync_down` to sync changes on the cloud back to the local file system
+
 
 #### TODO
 Will add more options for particular functions as we need them.

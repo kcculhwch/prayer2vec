@@ -18,10 +18,14 @@ function run {
             echo "Running preprocessor: $2"
             python ./pre_process.py $2
         ;;
-        sync)
-           sync
+        sync_up)
+           sync_up
            exit 0
            # don't run anything else (including the sync tail runner 
+        ;;
+        sync_down)
+           sync_down
+           exit 0
         ;;
     esac
 }
@@ -33,17 +37,40 @@ function submit {
     echo "submitted for processing in cloud"
 }
 
-function sync {
-    echo "sync corpus up/down"
-    echo "sync normalized up/down"
-    echo "sync models up/down"
+function sync_up {
+    aws s3 sync /corpus s3://prayer2vec/corpus
+    aws s3 sync /models s3://prayer2vec/models
+    aws s3 sync /normalized s3://prayer2vec/normalized
 }
 
+function sync_down {
+    aws s3 sync s3://prayer2vec/corpus /corpus
+    aws s3 sync s3://prayer2vec/models /models
+    aws s3 sync s3://prayer2vec/normalized /normalized
+}
+
+function auto_sync_up {
+    if [[ -v sync_auto && $1 != "sync_up" && $1 != "sync_down" ]]
+    then
+      sync_up
+    fi
+
+}
+
+function auto_sync_down {
+    if [[ -v sync_auto && $1 != "sync_up" && $1 != "sync_down" ]]
+    then
+      sync_down
+    fi
+
+}
 
 if [ -z $1 ]
 then
    echo "OPTIONS [queue] word2vec|pre|train|raw|sync"
 fi
+
+auto_sync_down $1
 
 ARGS=""
 iter=1
@@ -69,7 +96,5 @@ else
   run $1 $ARGS
 fi
 
-if [[ -v sync_auto ]]
-then
-  sync
-fi
+auto_sync_up $1
+
