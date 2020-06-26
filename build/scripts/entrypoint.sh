@@ -32,7 +32,7 @@ function run {
 
 function submit {
     args=$(echo $1 | sed s/.$//)
-    cmd='aws ecs run-task --task-definition p2v --cluster p2v --network-configuration "awsvpcConfiguration={subnets=[subnet-0587fb42d95e1e389],securityGroups=[sg-08aef250dcbad630c],assignPublicIp=DISABLED}" --overrides '"'"'{"containerOverrides":[{"name":"p2v","command":['$args']}]}'"' --platform-version 1.4.0"
+    cmd='aws ecs run-task --task-definition p2v --cluster p2v --network-configuration "awsvpcConfiguration={subnets=[subnet-0ae86125a14d8217c],securityGroups=[sg-08aef250dcbad630c],assignPublicIp=ENABLED}" --overrides '"'"'{"containerOverrides":[{"name":"p2v","command":['$args']}]}'"' --platform-version 1.4.0"
     eval $cmd
     echo "submitted for processing in cloud"
 }
@@ -67,7 +67,7 @@ function auto_sync_down {
 
 if [ -z $1 ]
 then
-   echo "OPTIONS [queue] word2vec|pre|train|raw|sync"
+   echo "OPTIONS [queue] word2vec|pre|train|raw|sync_up|sync_down"
 fi
 
 auto_sync_down $1
