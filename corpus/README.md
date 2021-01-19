@@ -1,6 +1,9 @@
 # Corpus for analysis
 
 
+
+
+
 ## Taxonomy levels
 1. Religion
 2. Tradition
