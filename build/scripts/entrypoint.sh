@@ -5,28 +5,34 @@ function run {
     case "$1" in
       word2vec)
         echo "Running word2vec with: $2"
-            word2vec $2
-        ;;
-        train)
-            echo "not implemented"
-        ;;
-        raw)
-            echo "Running raw commands: $2"
-            eval $2
-        ;;
-        pre)
-            echo "Running preprocessor: $2"
-            python ./pre_process.py $2
-        ;;
-        sync_up)
-           sync_up
-           exit 0
-           # don't run anything else (including the sync tail runner 
-        ;;
-        sync_down)
-           sync_down
-           exit 0
-        ;;
+        word2vec $2
+      ;;
+      train)
+        echo "Creating Models for $2"
+        python ./model.py $2
+      ;;
+      raw)
+        echo "Running raw commands: $2"
+        eval $2
+      ;;
+      pre)
+        echo "Running preprocessor: $2"
+        python ./pre_process.py $2
+      ;;
+      rank)
+        echo "Ranking models/docs $2"
+        python ./gen_rankings.py $2
+      ;;
+
+      sync_up)
+        sync_up
+        exit 0
+        # don't run anything else (including the sync tail runner 
+      ;;
+      sync_down)
+        sync_down
+        exit 0
+      ;;
     esac
 }
 
@@ -93,7 +99,7 @@ if [[ $1 == "queue" ]]
 then
   submit $ARGS
 else
-  run $1 $ARGS
+  run $1 "$ARGS"
 fi
 
 auto_sync_up $1

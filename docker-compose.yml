@@ -7,4 +7,5 @@ services:
       - ./corpus:/corpus
       - ./models:/models
       - ./normalized:/normalized
+      - ./outputs:/outputs
       - ~/.aws:/root/.aws

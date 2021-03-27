@@ -4,6 +4,7 @@ FROM python:3
 RUN mkdir /corpus
 RUN mkdir /models
 RUN mkdir /normalized
+RUN mkdir /outputs
 # DONT CHANGE ABOVE
 
 

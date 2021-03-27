@@ -1,0 +1,123 @@
+<html>
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+        <script   src="https://code.jquery.com/jquery-3.6.0.min.js"   integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="   crossorigin="anonymous"></script>
+        <title>Prayer2Vec Vis</title>
+    </head>
+    <body>
+        <h1>Choose a dataset</h1>
+        <select id="datasets">
+          <option selected disabled hidden style='display: none' value=''></option>
+          <option value="stripped-1616298626.0234246output.json">Stripped - Collects</option>
+          <option value="stripped-1616355070.0019565output.json">Stripped - Sermon</option>
+          <option value="basic-1616356096.9168086output.json">Basic - Collects</option>
+          <option value="basic-1616355942.688874output.json">Basic - Sermon</option>
+
+        </select>
+
+        <canvas id="myChart1"></canvas>
+        <canvas id="myChart2"></canvas>
+
+<script>
+$('#datasets').on('change', (data) => {
+    getDataset(data.currentTarget.value)
+});
+
+function getDataset(dataset) {
+    $.get(dataset, (data) => {
+        console.log(data);
+        genLineGraphRanked(data);
+        genLineGraphOrdered(data);
+    }, 'json')
+
+
+}
+var ctx1 = document.getElementById('myChart1').getContext('2d');
+var ctx2 = document.getElementById('myChart2').getContext('2d');
+var myLineChart1 = {};
+var myLineChart2 = {};
+
+
+function genLineGraphOrdered(dataInput){
+    var dataObject = {
+        datasets:[],
+        labels: []
+    };
+    dataInput.forEach((doc,index) => {
+        data = [];
+        orderedRanks = doc.ranks.sort((a,b) => {
+            if(a.id > b.id){
+                return 1;
+            } else if (a.id < b.id) {
+                return -1;
+            } else {
+                return 0;
+            }
+        })
+        orderedRanks.forEach((point, index) => {
+            data.push({x: index, y: point.rank * 100})
+        })
+        var r = Math.floor(Math.random() * 255); 
+        var g = Math.floor(Math.random() * 255);
+        var b = Math.floor(Math.random() * 255);
+        dataObject.datasets.push({data: data, label: `${doc.doc[0]} ${doc.doc[1]} ${doc.doc[2]}`, backgroundColor: `rgba(${r}, ${g}, ${b},  0.1)`})
+    });
+
+    console.log(dataObject)
+    if(typeof myLineChart2.destroy != "undefined") {
+        console.log("clear");
+        myLineChart2.destroy();
+    }
+
+    myLineChart2 = buildChart(dataObject, ctx2)
+}
+
+
+function genLineGraphRanked(dataInput){
+    var dataObject = {
+        datasets:[],
+        labels: []
+    };
+    dataInput.forEach((doc,index) => {
+        data = [];
+        doc.ranks.forEach((point, index) => {
+            data.push({x: index, y: point.rank * 100})
+        })
+        var r = Math.floor(Math.random() * 255); 
+        var g = Math.floor(Math.random() * 255);
+        var b = Math.floor(Math.random() * 255);
+        dataObject.datasets.push({data: data, label: `${doc.doc[0]} ${doc.doc[1]} ${doc.doc[2]}`, backgroundColor: `rgba(${r}, ${g}, ${b},  0.1)`})
+    });
+
+    console.log(dataObject)
+    if(typeof myLineChart1.destroy != "undefined") {
+        console.log("clear");
+        myLineChart1.destroy();
+    }
+    myLineChart1 = buildChart(dataObject,  ctx1)
+}
+
+
+function buildChart(data, ctx){
+    dataLength = data.datasets[0].data.length;
+    data.labels = [...Array(dataLength).keys()];
+    var myLineChart = new Chart(ctx, {
+        type: 'line',
+        data: data,
+        options: {
+            scales: {
+                xAxes: [{
+                    ticks: {
+                        min: 0,
+                        max: dataLength,
+                    }
+                }]
+            }
+        }
+    });
+    return myLineChart
+}
+</script>
+
+    </body>
+</html>
